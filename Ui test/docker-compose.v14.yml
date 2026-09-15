@@ -1,0 +1,46 @@
+services:
+  api:
+    image: v14-absa-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.v14
+    restart: unless-stopped
+    environment:
+      ABSA_ROOT_DIR: /app
+      ABSA_ENGINE_ONLY: v14
+      ABSA_SERVICE_NAME: V14 ABSA API
+      ABSA_SERVICE_VERSION: 14.0.0-candidate
+      ABSA_MODEL_LOADING: ${ABSA_MODEL_LOADING:-stream}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      MAX_REVIEW_LENGTH: ${MAX_REVIEW_LENGTH:-10000}
+      MAX_CSV_FILE_SIZE_MB: ${MAX_CSV_FILE_SIZE_MB:-100}
+      BATCH_TIMEOUT_SECONDS: ${BATCH_TIMEOUT_SECONDS:-1800}
+    volumes:
+      - v14_absa_storage:/app/storage
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    deploy:
+      resources:
+        limits:
+          memory: ${API_MEMORY_LIMIT:-12G}
+
+  web:
+    image: v14-absa-web:latest
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.v14
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "${V14_ABSA_PORT:-8080}:80"
+
+volumes:
+  v14_absa_storage:

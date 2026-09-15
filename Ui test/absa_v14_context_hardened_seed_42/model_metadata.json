@@ -1,0 +1,21 @@
+{
+  "model_name": "absa_v14_context_hardened_seed_42",
+  "model_version": "ABSA_V14",
+  "stage": "context_hardened",
+  "seed": 42,
+  "saved_at_utc": "2026-09-08T10:49:23.192513+00:00",
+  "components": {
+    "aspect": true,
+    "opinion": true,
+    "sentiment": true,
+    "relation": false,
+    "taxonomy": false
+  },
+  "relation_usable": false,
+  "taxonomy_usable": false,
+  "dataset_fingerprint": "96c1c95938546452a0b164aaeec00aefa065091e67173cc1bd400af24eed865e",
+  "split_fingerprint": "bb0b4afbc6f35e885dcf57dfe87c76ff28a4af73d289b09e821d58cc38229e76",
+  "production_status": "research / controlled pre-production candidate",
+  "torch_version": "2.11.0+cu128",
+  "cuda_version": "12.8"
+}

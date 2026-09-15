@@ -1,0 +1,32 @@
+{
+  "bio": {
+    "0": "O",
+    "1": "B",
+    "2": "I"
+  },
+  "sentiment": {
+    "0": "positive",
+    "1": "negative",
+    "2": "neutral"
+  },
+  "taxonomy": {
+    "0": "Food Quality",
+    "1": "Beverage Quality",
+    "2": "Service Quality",
+    "3": "Service Speed",
+    "4": "Waiting Time",
+    "5": "Staff Attitude",
+    "6": "Professionalism",
+    "7": "Price & Value",
+    "8": "Facilities",
+    "9": "Cleanliness",
+    "10": "Parking",
+    "11": "Location & Access",
+    "12": "Ambience",
+    "13": "Portion",
+    "14": "Menu Variety",
+    "15": "Digital Service",
+    "16": "Overall Experience",
+    "17": "Other"
+  }
+}

@@ -1,0 +1,394 @@
+{
+  "version": "14.0.0-candidate",
+  "config": {
+    "seed": 42,
+    "language": "multilingual",
+    "sentiment_labels": [
+      "positive",
+      "negative",
+      "neutral"
+    ],
+    "encoder": "/content/absa_v14_runs/context_hardened/seed_42/models/v14_context_hardened/dapt_encoder",
+    "encoder_candidates": [
+      "indobenchmark/indobert-base-p1",
+      "indolem/indobertweet-base-uncased",
+      "xlm-roberta-base"
+    ],
+    "model_version": "generic_multilingual_absa_v14_strengthened",
+    "taxonomy_version": "v14_canonical_18_pair_context_1",
+    "span_max_length": 256,
+    "span_stride": 64,
+    "span_batch_size": 4,
+    "span_epochs": 5,
+    "span_lr": 2e-05,
+    "span_patience": 1,
+    "sentiment_max_length": 384,
+    "sentiment_batch_size": 4,
+    "sentiment_warmup_epochs": 1,
+    "sentiment_balanced_epochs": 3,
+    "sentiment_lr_warmup": 1e-05,
+    "sentiment_lr_balanced": 3e-06,
+    "sentiment_patience": 1,
+    "label_smoothing": 0.05,
+    "grad_accum": 8,
+    "sentiment_target_probs": {
+      "positive": 0.4,
+      "negative": 0.3,
+      "neutral": 0.3
+    },
+    "balance_domain_inside_sentiment": true,
+    "hard_contrast_multiplier": 1.35,
+    "enable_reversible_normalization": true,
+    "dual_view_maps_inference": true,
+    "default_profile": "production_precision",
+    "run_dapt": true,
+    "dapt_epochs": 1,
+    "dapt_max_reviews": 50000,
+    "sampling_alpha": 0.5,
+    "domain_sampling_alpha": 0.5,
+    "sampler_weight_clip_quantile": 0.995,
+    "checkpoint_weights": {
+      "macro_f1": 0.5,
+      "neutral_f1": 0.25,
+      "negative_f1": 0.2,
+      "positive_f1": 0.05
+    },
+    "public_data_mode": "research",
+    "use_casa_aux": true,
+    "use_hoasa_aux": true,
+    "use_fnb_zenodo_aux": false,
+    "use_indohotel_aux": false,
+    "public_source_loss_weight": 0.7,
+    "silver_source_loss_weight": 0.5,
+    "controlled_synthetic_loss_weight": 0.3,
+    "use_terma_aspect_aux": true,
+    "opinion_max_char_distance": 90,
+    "coordination_split_min_taxonomy_conf": 0.6,
+    "download_fnb_zenodo": false,
+    "download_indohotel": false,
+    "unseen_domain": "sight",
+    "strict_normalized_text_leakage": true,
+    "cross_split_priority": [
+      "test",
+      "validation",
+      "train"
+    ],
+    "use_gmaps_gold": true,
+    "use_gmaps_silver_supervised": false,
+    "gmaps_gold_statuses": [
+      "approved",
+      "verified",
+      "human_approved"
+    ],
+    "gmaps_min_gold_test_reviews": 100,
+    "gmaps_split_ratios": [
+      0.7,
+      0.15,
+      0.15
+    ],
+    "reuse_dapt_encoder": true,
+    "dapt_min_reviews": 700,
+    "dapt_learning_rate": 2e-05,
+    "train_relation_when_gold_available": true,
+    "relation_min_positive_train": 150,
+    "relation_min_negative_train": 150,
+    "relation_epochs": 5,
+    "relation_lr": 2e-05,
+    "relation_threshold_default": 0.5,
+    "relation_max_opinions_per_aspect": 8,
+    "maps_word_boundary_repair": true,
+    "maps_lexicon_candidate_recovery": true,
+    "maps_waiting_negative_guardrail": true,
+    "maps_compound_staff_repair": true,
+    "gmaps_auto_discover_external": true,
+    "gmaps_external_review_patterns": [
+      "gmaps_reviews_silver_qc_ready*.csv",
+      "gmaps_reviews_llm_annotated*.csv",
+      "gmaps_reviews_human_approved*.csv",
+      "gmaps_reviews_gold*.csv"
+    ],
+    "gmaps_exclude_duplicate_statuses": [
+      "exclude_duplicate",
+      "duplicate"
+    ],
+    "gmaps_run_silver_diagnostic": true,
+    "gmaps_min_domain_test_places": 2,
+    "dapt_dual_view": false,
+    "sentiment_neutral_recovery_epochs": 1,
+    "sentiment_lr_neutral_recovery": 2e-06,
+    "neutral_recovery_class_floors": {
+      "positive": 0.0,
+      "negative": 0.3,
+      "neutral": 0.25
+    },
+    "maps_evidence_aware_candidate_recovery": true,
+    "maps_document_alias_consolidation": true,
+    "maps_semantic_guardrails": true,
+    "maps_candidate_context_chars": 260,
+    "gmaps_auto_text_dedup": true,
+    "gmaps_taxonomy_eval_harmonization": true,
+    "target_metric_floor": 0.85,
+    "strict_three_class": true,
+    "gmaps_require_external_input": false,
+    "gmaps_interactive_upload_if_missing": false,
+    "use_gmaps_silver_aux": false,
+    "gmaps_silver_aux_review_conf_min": 0.9,
+    "gmaps_silver_aux_annotation_conf_min": 0.9,
+    "gmaps_silver_aux_loss_weight": 0.25,
+    "gmaps_silver_relation_aux": false,
+    "dapt_train_split_only": true,
+    "dapt_allow_unpartitioned_raw": false,
+    "inner_tune_fraction": 0.15,
+    "inner_tune_seed": 4211,
+    "overfit_val_loss_tolerance": 0.05,
+    "use_class_balanced_focal": true,
+    "focal_gamma": 1.5,
+    "effective_num_beta": 0.999,
+    "neutral_noisy_weight": 1.0,
+    "opinion_conditioned_sentiment": true,
+    "maps_neutral_factual_recovery": true,
+    "silver_relation_min_positive_train": 150,
+    "silver_relation_min_negative_train": 100,
+    "ece_bins": 15,
+    "run_mode": "v14_context_hardened",
+    "v10_bundle_required": false,
+    "v11_bundle_required": false,
+    "use_v10_synthetic": false,
+    "use_v11_synthetic": false,
+    "dapt_mix_gmaps_ratio": 0.7,
+    "dapt_mix_generic_ratio": 0.3,
+    "core_gold_loss_weight": 1.0,
+    "gmaps_silver_class_weights": {
+      "positive": 0.08,
+      "negative": 0.25,
+      "neutral": 0.2
+    },
+    "synthetic_class_weights": {
+      "positive": 0.05,
+      "negative": 0.12,
+      "neutral": 0.15
+    },
+    "v11_synthetic_class_weights": {
+      "positive": 0.06,
+      "negative": 0.1,
+      "neutral": 0.14
+    },
+    "gmaps_silver_positive_cap_multiplier": 4.0,
+    "class_exposure_target_probs": {
+      "positive": 0.47,
+      "negative": 0.31,
+      "neutral": 0.22
+    },
+    "neutral_hardening_target_probs": {
+      "positive": 0.45,
+      "negative": 0.31,
+      "neutral": 0.24
+    },
+    "class_exposure_bounds": {
+      "positive": [
+        0.45,
+        0.5
+      ],
+      "negative": [
+        0.3,
+        0.35
+      ],
+      "neutral": [
+        0.2,
+        0.25
+      ]
+    },
+    "controlled_class_sampling": true,
+    "inner_tune_min_examples_per_class": 50,
+    "sentiment_checkpoint_weights_v10": {
+      "macro_f1": 0.45,
+      "neutral_f1": 0.3,
+      "negative_f1": 0.2,
+      "positive_f1": 0.05
+    },
+    "relation_gmaps_silver_positive_weight": 0.08,
+    "relation_synthetic_positive_weight": 0.05,
+    "relation_synthetic_hard_negative_weight": 0.15,
+    "relation_v11_positive_weight": 0.08,
+    "relation_v11_hard_negative_weight": 0.15,
+    "relation_aux_tune_fraction": 0.15,
+    "relation_positive_to_negative_cap": 1.1,
+    "run_taxonomy_classifier": true,
+    "taxonomy_epochs": 3,
+    "taxonomy_lr": 1e-05,
+    "taxonomy_batch_size": 4,
+    "taxonomy_min_confidence_inference": 0.55,
+    "use_legacy_controlled_synthetic": false,
+    "v11_targets": {
+      "negative_f1": 0.84,
+      "neutral_f1": 0.5,
+      "sentiment_macro_f1": 0.75,
+      "aspect_f1": 0.75,
+      "aspect_sentiment_f1": 0.7,
+      "relation_f1": 0.55,
+      "taxonomy_macro_f1": 0.75
+    },
+    "project_version": "V14.1-strengthened-candidate",
+    "source_notebook": "generic_multilingual_absa_v13_clause_relation_hardened_(1).ipynb",
+    "source_cell_count": 138,
+    "upgrade_strategy": "retain_v13_tasks_repair_pairing_and_evaluation",
+    "base_encoder": "xlm-roberta-base",
+    "languages": [
+      "id",
+      "en"
+    ],
+    "training_languages": [
+      "id",
+      "en"
+    ],
+    "mvp_languages": [
+      "id",
+      "en",
+      "id-en"
+    ],
+    "experimental_languages": [
+      "ja",
+      "ar"
+    ],
+    "mabsa_diagnostic_max_records_per_language": 200,
+    "annotation_schema_version": "v14_manifest_contract_1",
+    "normalization_policy_version": "v14_1_layered_reversible_multilingual_1.0",
+    "data_revision_m_absa": "dadb0ccd55aa6a7e5de1b38ecaa059e64417c37e",
+    "data_revision_indonlu": "ce728f6926a36174b9923dfe49d6a6839b6e9bb7",
+    "data_revision_mams": "cddcdb0f423b3fdb2c76b70744737abed3a00d17",
+    "blueprint_sha256": "6b3ef2eef3797b4fa4309a8a86cc0c29a9829d5e72f0be7a657e4f8f31f8ef47",
+    "dataset_license_status": {
+      "M-ABSA": "NOT_DECLARED_OR_NOT_VERIFIED_FOR_PRODUCTION",
+      "IndoNLU": "MIT_REPOSITORY_VERIFY_ORIGINAL_SOURCE_DATA_RIGHTS",
+      "MAMS": "APACHE-2.0_REPOSITORY_VERIFY_DATA_RIGHTS",
+      "SemEval": "CANDIDATE_MANUAL_LICENSE_AUDIT_REQUIRED",
+      "MARC_HARD_RAKUTEN": "CANDIDATE_MANUAL_LICENSE_AUDIT_REQUIRED",
+      "optional_user_bundles": "VERIFY_PER_SOURCE",
+      "V13_AI_SYNTHETIC": "AUXILIARY_ONLY_NOT_HUMAN_GOLD"
+    },
+    "language_metadata_not_hard_routing": true,
+    "code_switch_gold_required_for_production": true,
+    "raw_text_is_immutable": true,
+    "run_near_duplicate_audit": true,
+    "near_duplicate_threshold": 0.985,
+    "near_duplicate_max_rounds": 5,
+    "language_sampling_alpha": 0.7,
+    "gradient_checkpointing": true,
+    "dapt_mixed_precision": "fp16_if_cuda_downstream_custom_loops_fp32",
+    "relation_batch_size": 4,
+    "use_v13_synthetic": false,
+    "v13_bundle_required": false,
+    "v13_sentiment_weight": 0.2,
+    "v13_span_weight": 0.25,
+    "v13_taxonomy_weight": 0.2,
+    "v13_relation_positive_weight": 0.35,
+    "v13_relation_negative_weight": 0.35,
+    "relation_baseline_margin": 0.03,
+    "relation_min_class_recall": 0.7,
+    "relation_threshold_precision_floor": 0.35,
+    "allow_cross_clause_relation": true,
+    "production_max_generalization_gap": 0.12,
+    "production_max_ece": 0.12,
+    "production_min_confidence_coverage": 0.2,
+    "use_mams_atsa": true,
+    "use_smsa_sentiment_warmup": true,
+    "smsa_warmup_epochs": 1,
+    "smsa_warmup_lr": 1e-05,
+    "smsa_warmup_max_rows": 6000,
+    "smsa_warmup_sample_weight": 0.35,
+    "strict_candidate_license_gate": true,
+    "overall_sentiment_policy": "aggregate_aspect_sentiments_mvp",
+    "relation_max_length": 384,
+    "relation_sanity_steps": 300,
+    "neutral_stage_target_probs": {
+      "positive": 0.42,
+      "negative": 0.34,
+      "neutral": 0.24
+    },
+    "sentiment_hardening_protection_tolerance": 0.0,
+    "v13_checkpoint_root": "",
+    "data_revision_mode": "v14_plus_available_v13_sources",
+    "relation_usable": false,
+    "relation_human_validated": false,
+    "relation_threshold": 0.5,
+    "sentiment_temperature": 0.7612389326095581,
+    "max_input_chars": 30000,
+    "max_candidate_pairs": 512,
+    "timeout_seconds": 120,
+    "max_opinions_per_aspect": 8,
+    "auto_accept_threshold": 0.9,
+    "taxonomy_min_confidence": 0.6,
+    "dataset_fingerprint": "96c1c95938546452a0b164aaeec00aefa065091e67173cc1bd400af24eed865e",
+    "split_fingerprint": "bb0b4afbc6f35e885dcf57dfe87c76ff28a4af73d289b09e821d58cc38229e76",
+    "neutral_policy": "factual_is_no_opinion"
+  },
+  "labels": {
+    "bio": {
+      "0": "O",
+      "1": "B",
+      "2": "I"
+    },
+    "sentiment": {
+      "0": "positive",
+      "1": "negative",
+      "2": "neutral"
+    },
+    "taxonomy": {
+      "0": "Food Quality",
+      "1": "Beverage Quality",
+      "2": "Service Quality",
+      "3": "Service Speed",
+      "4": "Waiting Time",
+      "5": "Staff Attitude",
+      "6": "Professionalism",
+      "7": "Price & Value",
+      "8": "Facilities",
+      "9": "Cleanliness",
+      "10": "Parking",
+      "11": "Location & Access",
+      "12": "Ambience",
+      "13": "Portion",
+      "14": "Menu Variety",
+      "15": "Digital Service",
+      "16": "Overall Experience",
+      "17": "Other"
+    }
+  },
+  "profiles": {
+    "scientific_balanced": {
+      "aspect_threshold": 0.7,
+      "opinion_threshold": 0.55,
+      "recovery": false,
+      "dual_view": false
+    },
+    "production_precision": {
+      "aspect_threshold": 0.9,
+      "opinion_threshold": 0.9,
+      "recovery": false,
+      "dual_view": false
+    },
+    "maps_high_recall": {
+      "aspect_threshold": 0.1,
+      "opinion_threshold": 0.55,
+      "recovery": true,
+      "dual_view": true
+    }
+  },
+  "calibrators": {
+    "scientific_balanced": {
+      "status": "not_fitted_insufficient_human_tuples",
+      "n": 0
+    },
+    "production_precision": {
+      "status": "not_fitted_insufficient_human_tuples",
+      "n": 0
+    }
+  },
+  "components": {
+    "aspect": true,
+    "opinion": true,
+    "sentiment": true,
+    "relation": false,
+    "taxonomy": false
+  }
+}

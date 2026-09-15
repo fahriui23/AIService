@@ -1,4 +1,9 @@
-# Aspect-Based Sentiment Analysis (ABSA)
+# V14 ABSA
+
+**Aspect-Based Sentiment Analysis untuk Bahasa Indonesia, Inggris, dan code-switch.**
+
+Paket deployment khusus model V14 tersedia di
+[`Ui test/DEPLOY_V14.md`](Ui%20test/DEPLOY_V14.md).
 
 ## Apa itu ABSA?
 

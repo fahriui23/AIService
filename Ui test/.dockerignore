@@ -1,0 +1,16 @@
+.git
+.gitignore
+.venv
+**/__pycache__
+**/.pytest_cache
+**/*.pyc
+frontend/node_modules
+frontend/dist
+storage
+*.ipynb
+notebook_*.txt
+absa_v11_web_bundle
+absa_v12_multilingual_bundle
+absa_v15_1_production_fp16
+absa_v14_context_hardened_seed_42/training_history*
+absa_v14_context_hardened_seed_42/reports

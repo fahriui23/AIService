@@ -1,0 +1,28 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    ABSA_ROOT_DIR=/app \
+    ABSA_ENGINE_ONLY=v14 \
+    ABSA_SERVICE_NAME="V14 ABSA API" \
+    ABSA_SERVICE_VERSION="14.0.0-candidate" \
+    ABSA_MODEL_LOADING=stream
+
+WORKDIR /app/backend
+
+COPY backend/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+COPY backend /app/backend
+COPY absa_v14_context_hardened_seed_42 /app/absa_v14_context_hardened_seed_42
+
+RUN useradd --create-home --uid 10001 absa \
+    && mkdir -p /app/storage \
+    && chown -R absa:absa /app/storage
+
+USER absa
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1", "--proxy-headers", "--forwarded-allow-ips=*"]

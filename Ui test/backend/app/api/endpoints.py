@@ -18,7 +18,7 @@ from app.datasets.loader import save_uploaded_file, detect_dataset_type
 from app.datasets.audit import audit_dataset_records
 from app.training.job_manager import start_training_job, cancel_training_job, get_job_logs
 from app.inference.engine import inference_engine_manager
-from app.services.enrichment import analyze_enriched
+from app.services.enrichment import analyze_enriched, analyze_enriched_batch
 from app.services.batch import BatchJobManager, BatchValidationError
 from app.models.registry import list_model_artifacts, mark_best_model, delete_model_artifact, create_model_package_zip
 
@@ -343,11 +343,23 @@ def run_batch_inference(payload: Dict[str, Any]):
     profile = payload.get("profile", "production_precision")
     engine_version = str(payload.get("engine_version", DEFAULT_ENGINE_VERSION)).lower()
 
+    # Each review may be a plain string or an object carrying the same optional
+    # customer_id/city/province metadata accepted by /inference/single.
+    rows = [
+        {"raw_text": r} if isinstance(r, str) else {
+            "raw_text": r.get("review", r.get("text", "")),
+            "customer_id": r.get("customer_id"),
+            "city": r.get("city", r.get("kota")),
+            "province": r.get("province", r.get("provinsi")),
+        }
+        for r in reviews
+    ]
+
     try:
-        res = inference_engine_manager.analyze_batch(engine_version, reviews, threshold, profile)
+        res = analyze_enriched_batch(inference_engine_manager, rows, engine_version, threshold, profile)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    return {"total": len(res), "engine_version": engine_version, "results": res}
+    return {"success": True, "total": len(res), "engine_version": engine_version, "results": res}
 
 
 # --- CSV Batch Analysis Jobs ---

@@ -8,7 +8,7 @@ import pytest
 
 from app.services.batch import BatchJobManager, BatchValidationError
 from app.services.absa_adapter import normalize_absa_response
-from app.services.enrichment import analyze_enriched, location_resolver, resolve_customer
+from app.services.enrichment import analyze_enriched, analyze_enriched_batch, location_resolver, resolve_customer
 
 
 class FakeEngineManager:
@@ -93,6 +93,29 @@ def test_structured_location_and_single_response_are_canonical_and_backward_comp
     assert result["location"]["city_or_regency"] == "Kota Bandung"
     assert result["absa"]["aspects"][0]["complaint_taxonomy"] == "Application"
     assert "customer_id_conflict" in result["warnings"]
+
+
+def test_json_batch_endpoint_row_mapping_matches_single_inference_shape():
+    # Mirrors the payload -> rows mapping in POST /api/inference/batch, so a
+    # plain string and a metadata-carrying object both reach analyze_enriched_batch
+    # and come back with the same canonical shape as /inference/single.
+    reviews = ["aplikasi sangat bagus", {"review": "pengiriman lambat", "customer_id": "213", "city": "Bandung"}]
+    rows = [
+        {"raw_text": r} if isinstance(r, str) else {
+            "raw_text": r.get("review", r.get("text", "")),
+            "customer_id": r.get("customer_id"),
+            "city": r.get("city", r.get("kota")),
+            "province": r.get("province", r.get("provinsi")),
+        }
+        for r in reviews
+    ]
+    results = analyze_enriched_batch(FakeEngineManager(), rows, "v12")
+
+    assert [item["success"] for item in results] == [True, True]
+    assert results[0]["absa"]["aspects"][0]["complaint_taxonomy"] == "Application"
+    assert results[1]["customer"]["customer_class"] == "SILVER"
+    assert results[1]["location"]["city_or_regency"] == "Kota Bandung"
+    assert "timing" in results[0] and "warnings" in results[0]
 
 
 def _write_csv(path: Path, rows, fieldnames=("review",)):

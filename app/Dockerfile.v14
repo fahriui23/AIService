@@ -14,11 +14,19 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app/backend
 
-COPY backend/requirements.txt /app/requirements.txt
+# Layer 1: torch (largest, ~196 MB) — cached once downloaded
 RUN pip install --no-cache-dir \
-      torch --index-url https://download.pytorch.org/whl/cpu \
-    && pip install --no-cache-dir \
-      -r /app/requirements.txt
+      torch --index-url https://download.pytorch.org/whl/cpu
+
+# Layer 2: ML packages
+RUN pip install --no-cache-dir \
+      transformers>=4.40.0,\<5.0.0 \
+      accelerate>=0.28.0,\<1.0.0 \
+      scikit-learn>=1.2.0,\<2.0.0
+
+# Layer 3: remaining requirements
+COPY backend/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 COPY backend /app/backend
 COPY absa_v14_context_hardened_seed_42 /app/absa_v14_context_hardened_seed_42

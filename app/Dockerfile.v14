@@ -3,6 +3,9 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
+    PIP_RETRIES=10 \
+    PIP_TIMEOUT=300 \
+    PIP_DEFAULT_TIMEOUT=300 \
     ABSA_ROOT_DIR=/app \
     ABSA_ENGINE_ONLY=v14 \
     ABSA_SERVICE_NAME="V14 ABSA API" \
@@ -12,11 +15,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app/backend
 
 COPY backend/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir --retries 5 --timeout 120 \
-       torch --index-url https://download.pytorch.org/whl/cpu \
-    && pip install --no-cache-dir --retries 5 --timeout 120 \
-       -r /app/requirements.txt
+RUN pip install --no-cache-dir \
+      torch --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir \
+      -r /app/requirements.txt
 
 COPY backend /app/backend
 COPY absa_v14_context_hardened_seed_42 /app/absa_v14_context_hardened_seed_42

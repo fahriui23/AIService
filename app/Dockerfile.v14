@@ -12,7 +12,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app/backend
 
 COPY backend/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu \
+    && pip install --no-cache-dir -r /app/requirements.txt
 
 COPY backend /app/backend
 COPY absa_v14_context_hardened_seed_42 /app/absa_v14_context_hardened_seed_42

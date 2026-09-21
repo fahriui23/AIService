@@ -14,19 +14,37 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app/backend
 
-# Layer 1: torch (largest, ~196 MB) — cached once downloaded
-RUN pip install --no-cache-dir \
-      torch --index-url https://download.pytorch.org/whl/cpu
+# retry helper: try up to 5 times with 15s backoff
+SHELL ["/bin/sh", "-c"]
 
-# Layer 2: ML packages
-RUN pip install --no-cache-dir \
-      transformers>=4.40.0,\<5.0.0 \
-      accelerate>=0.28.0,\<1.0.0 \
-      scikit-learn>=1.2.0,\<2.0.0
+# Layer 1: torch CPU (~196 MB)
+RUN for i in 1 2 3 4 5; do \
+      echo "==> Attempt $i: torch" && \
+      pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && break || \
+      echo "==> Failed, retrying in 15s..." && sleep 15; \
+    done && python -c "import torch; print(torch.__version__)"
 
-# Layer 3: remaining requirements
+# Layer 2: transformers + accelerate
+RUN for i in 1 2 3 4 5; do \
+      echo "==> Attempt $i: transformers+accelerate" && \
+      pip install --no-cache-dir 'transformers>=4.40.0,<5.0.0' 'accelerate>=0.28.0,<1.0.0' && break || \
+      echo "==> Failed, retrying in 15s..." && sleep 15; \
+    done && python -c "import transformers; print(transformers.__version__)"
+
+# Layer 3: scikit-learn + pandas + numpy
+RUN for i in 1 2 3 4 5; do \
+      echo "==> Attempt $i: data science packages" && \
+      pip install --no-cache-dir 'scikit-learn>=1.2.0,<2.0.0' 'pandas>=2.0.0,<3.0.0' 'numpy>=1.24.0,<2.0.0' && break || \
+      echo "==> Failed, retrying in 15s..." && sleep 15; \
+    done
+
+# Layer 4: remaining requirements (mostly small packages, already-installed ones are skipped)
 COPY backend/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN for i in 1 2 3 4 5; do \
+      echo "==> Attempt $i: requirements.txt" && \
+      pip install --no-cache-dir -r /app/requirements.txt && break || \
+      echo "==> Failed, retrying in 15s..." && sleep 15; \
+    done
 
 COPY backend /app/backend
 COPY absa_v14_context_hardened_seed_42 /app/absa_v14_context_hardened_seed_42

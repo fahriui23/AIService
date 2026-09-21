@@ -10,6 +10,10 @@
 # Examples:
 #   ./deploy.sh          # uses V14_ABSA_PORT from .env (or 8080 default)
 #   ./deploy.sh 9090      # exposes the service on port 9090 instead
+
+git checkout absa
+git pull origin absa
+
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

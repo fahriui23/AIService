@@ -48,8 +48,8 @@ fi
 echo "==> Validating docker-compose.v14.yml"
 $COMPOSE config >/dev/null
 
-echo "==> Building images"
-$COMPOSE build
+echo "==> Pulling images"
+$COMPOSE pull
 
 echo "==> Starting containers"
 $COMPOSE up -d

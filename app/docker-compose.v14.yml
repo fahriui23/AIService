@@ -1,9 +1,6 @@
 services:
   api:
-    image: v14-absa-api:latest
-    build:
-      context: .
-      dockerfile: Dockerfile.v14
+    image: triasitufahri/ai-service-onebox:api
     restart: unless-stopped
     environment:
       ABSA_ROOT_DIR: /app
@@ -31,10 +28,7 @@ services:
           memory: ${API_MEMORY_LIMIT:-12G}
 
   web:
-    image: v14-absa-web:latest
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile.v14
+    image: triasitufahri/ai-service-onebox:web
     restart: unless-stopped
     depends_on:
       api:

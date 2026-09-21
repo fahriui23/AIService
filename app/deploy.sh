@@ -37,7 +37,7 @@ if [[ $# -ge 1 ]]; then
 fi
 
 PORT="$(grep '^V14_ABSA_PORT=' .env | cut -d= -f2)"
-PORT="${PORT:-8080}"
+PORT="${PORT:-9090}"
 
 echo "==> Target port: ${PORT}"
 if command -v ss >/dev/null 2>&1 && ss -ltn "( sport = :${PORT} )" | grep -q LISTEN; then

@@ -11,7 +11,7 @@ services:
       ABSA_SERVICE_NAME: V14 ABSA API
       ABSA_SERVICE_VERSION: 14.0.0-candidate
       ABSA_MODEL_LOADING: ${ABSA_MODEL_LOADING:-stream}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:9090}
       MAX_REVIEW_LENGTH: ${MAX_REVIEW_LENGTH:-10000}
       MAX_CSV_FILE_SIZE_MB: ${MAX_CSV_FILE_SIZE_MB:-100}
       BATCH_TIMEOUT_SECONDS: ${BATCH_TIMEOUT_SECONDS:-1800}
@@ -40,7 +40,7 @@ services:
       api:
         condition: service_healthy
     ports:
-      - "${V14_ABSA_PORT:-8080}:80"
+      - "${V14_ABSA_PORT:-9090}:80"
 
 volumes:
   v14_absa_storage:
